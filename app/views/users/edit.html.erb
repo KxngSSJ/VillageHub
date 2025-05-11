@@ -1,0 +1,45 @@
+<!-- Admin User Edit Page -->
+<div style="max-width: 500px; margin: 50px auto; background-color: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+
+  <!-- Page Heading -->
+  <h2 style="text-align: center; color: #d9752b;">Edit User</h2>
+
+  <!-- This form updates the user’s information -->
+  <%= form_with model: @user, local: true do |form| %>
+
+    <!-- Username Field (editable) -->
+    <div style="margin-bottom: 15px;">
+      <%= form.label :username, style: "font-weight: bold;" %><br>
+      <%= form.text_field :username, style: "width: 100%; padding: 8px;" %>
+    </div>
+
+    <!-- Email Field (editable) -->
+    <div style="margin-bottom: 15px;">
+      <%= form.label :email, style: "font-weight: bold;" %><br>
+      <%= form.email_field :email, style: "width: 100%; padding: 8px;" %>
+    </div>
+
+    <!-- Optional: is_tradesman checkbox -->
+    <div style="margin-bottom: 15px;">
+      <%= form.check_box :is_tradesman, id: "edit_tradesman_box" %>
+      <%= form.label :is_tradesman, "Is Tradesman?" %>
+    </div>
+
+    <!-- Role input (optional for tradesman) -->
+    <div style="margin-bottom: 15px;">
+      <%= form.label :role, "Trade Role (if tradesman)", style: "font-weight: bold;" %><br>
+      <%= form.text_field :role, style: "width: 100%; padding: 8px;" %>
+    </div>
+
+    <!-- Submit button -->
+    <div style="text-align: center;">
+      <%= form.submit "Update", style: "background-color: #2ecc71; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;" %>
+    </div>
+
+  <% end %>
+
+  <!-- Back to Admin Dashboard link -->
+  <div style="text-align: center; margin-top: 20px;">
+    <%= link_to "Back to Admin Dashboard", admin_dashboard_path, style: "color: #3498db; text-decoration: none;" %>
+  </div>
+</div>

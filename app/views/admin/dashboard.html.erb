@@ -1,0 +1,71 @@
+<!-- Admin Dashboard Page --> 
+<div style="padding: 40px; background-color: #f9f9f9; font-family: Arial, sans-serif;">
+  <h1 style="text-align: center; font-size: 36px; margin-bottom: 30px; color: #333;">Admin Dashboard</h1>
+
+  <!-- Platform Overview Section (Statistics for the admin) -->
+  <div style="background-color: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+    <h2 style="text-align: center; color: #d9752b;">Platform Overview</h2>
+    <ul style="list-style-type: none; padding: 0; font-size: 16px;">
+      <li><strong>Total Users:</strong> <%= @total_users %></li>
+      <li><strong>Tradesmen:</strong> <%= @tradesmen_count %></li>
+      <li><strong>Non-Tradesmen:</strong> <%= @non_tradesmen_count %></li>
+      <li><strong>Admin Users:</strong> <%= @admin_count %></li>
+      <li><strong>Total Work Posts:</strong> <%= @total_posts %></li>
+      <li><strong>Average Rating:</strong> <%= @average_ratings %> / 5</li>
+    </ul>
+  </div>
+
+  <!-- Styled User Table -->
+  <h2 style="color: #d9752b; margin-bottom: 10px;">All Users</h2>
+  <table style="width: 100%; border-collapse: collapse; background-color: #fff;">
+    <thead style="background-color: #d9752b; color: white;">
+      <tr>
+      <th style="padding: 10px; border: 1px solid #ddd;">Username</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Email</th>
+      <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+        <td style="padding: 10px; border: 1px solid #ddd;"><%= user.username %></td>
+        <td style="padding: 10px; border: 1px solid #ddd;"><%= user.email %></td>
+        <td style="padding: 10px; border: 1px solid #ddd;">
+        <% unless user.is_admin %>
+        <!-- Edit button - links to the user's edit page -->
+        <%= link_to "Edit", edit_user_path(user), style: "background-color: #3498db; color: white; padding: 6px 12px; border-radius: 4px; text-decoration: none; margin-right: 10px;" %>
+
+        <!-- Delete button - shows confirmation popup -->
+        <%= button_to "Delete", user_path(user), method: :delete, data: { confirm: "Are you sure?" }, style: "background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;" %>
+         <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <!-- Styled Work Post Table -->
+  <h2 style="color: #d9752b; margin-top: 40px; margin-bottom: 10px;">All Work Posts</h2>
+  <table style="width: 100%; border-collapse: collapse; background-color: #fff;">
+    <thead style="background-color: #d9752b; color: white;">
+    <tr>
+    <th style="padding: 10px; border: 1px solid #ddd;">Title</th>
+    <th style="padding: 10px; border: 1px solid #ddd;">Posted By</th>
+    <th style="padding: 10px; border: 1px solid #ddd;">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @work_posts.each do |post| %>
+        <tr>
+        <td style="padding: 10px; border: 1px solid #ddd;"><%= post.title %></td>
+        <td style="padding: 10px; border: 1px solid #ddd;"><%= post.user.username %></td>
+        <td style="padding: 10px; border: 1px solid #ddd;">
+        <!-- Delete button for admin to remove work post -->
+        <%= button_to "Delete", work_post_path(post), method: :delete, data: { confirm: "Are you sure?" }, style: "background-color: #e74c3c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;" %>
+        </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

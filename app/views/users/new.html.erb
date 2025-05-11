@@ -1,0 +1,79 @@
+<!-- Center everything -->
+<div style="text-align: center; margin-top: 50px;">
+  
+  <!-- Page Heading -->
+  <h1>Create Your Account</h1>
+
+  <!-- Signup Form -->
+  <%= form_with model: @user, url: signup_path, html: { style: "display: inline-block; text-align: left;" } do |f| %>
+
+    <!-- Username Field -->
+    <div style="margin-bottom: 15px;">
+      <%= f.label :username %><br>
+      <%= f.text_field :username, style: "width: 300px; padding: 8px;" %>
+    </div>
+
+    <!-- Email Field -->
+    <div style="margin-bottom: 15px;">
+      <%= f.label :email %><br>
+      <%= f.email_field :email, style: "width: 300px; padding: 8px;" %>
+    </div>
+
+    <!-- Password Field -->
+    <div style="margin-bottom: 15px;">
+      <%= f.label :password %><br>
+      <%= f.password_field :password, style: "width: 300px; padding: 8px;" %>
+    </div>
+
+    <!-- Password Confirmation Field -->
+    <div style="margin-bottom: 15px;">
+      <%= f.label :password_confirmation %><br>
+      <%= f.password_field :password_confirmation, style: "width: 300px; padding: 8px;" %>
+    </div>
+
+    <!-- Checkbox for Tradesman -->
+    <div style="margin-bottom: 15px;">
+      <%= f.check_box :is_tradesman, id: "is_tradesman_checkbox" %>
+      <%= f.label :is_tradesman, "I am a tradesman" %>
+    </div>
+
+    <!-- Role Field (Only shows if Tradesman box is ticked) -->
+    <div id="role_field" style="display: none; margin-bottom: 15px;">
+      <%= f.label :role, "Trade Role" %><br>
+      <%= f.text_field :role, style: "width: 300px; padding: 8px;" %>
+    </div>
+
+    <!-- The Create Accounts Button -->
+    <div style="margin-bottom: 20px;">
+      <%= f.submit "Create Account", style: "padding: 10px 20px; font-size: 16px; cursor: pointer;" %>
+    </div>
+
+  <% end %>
+
+  <!-- Login Button (Link styled like a button) -->
+  <div style="margin-top: 10px;">
+    <%= link_to "Already have an account? Log in", login_path, style: "display: inline-block; padding: 10px 20px; background-color:rgb(25, 176, 40); color: white; text-decoration: none; border-radius: 5px; font-size: 16px; margin-top: 10px;" %>
+  </div>
+
+</div>
+
+<!-- JavaScript to show/hide Role field based on checkbox -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var checkbox = document.getElementById("is_tradesman_checkbox");
+    var roleField = document.getElementById("role_field");
+
+    function toggleRoleField() {
+      roleField.style.display = checkbox.checked ? "block" : "none";
+    }
+
+    if (checkbox && roleField) {
+      // Run on load
+      toggleRoleField();
+
+      // Run on change
+      checkbox.addEventListener("change", toggleRoleField);
+    }
+  });
+</script>
+

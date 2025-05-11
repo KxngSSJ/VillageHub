@@ -1,0 +1,11 @@
+<div style="text-align: center; margin-top: 50px;">
+  <h1><%= @work_post.title %></h1>
+
+  <p style="font-size: 18px;"><%= @work_post.description %></p>
+
+  <% if @work_post.image.attached? %>
+    <div style="margin-top: 20px;">
+      <%= image_tag @work_post.image, style: "max-width: 600px;" %>
+    </div>
+  <% end %>
+</div>

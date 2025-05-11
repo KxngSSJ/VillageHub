@@ -1,0 +1,17 @@
+<div style="max-width: 400px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px;">
+  <h2 style="text-align: center;">Forgot Password</h2>
+
+  <%= form_with url: password_reset_path, method: :post, local: true do %>
+    <div style="margin-bottom: 15px;">
+    <%= label_tag :email, "Enter your email" %><br>
+    <%= email_field_tag :email, nil, style: "width: 100%; padding: 8px;" %>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+    <%= label_tag :password, "New password" %><br>
+    <%= password_field_tag :password, nil, style: "width: 100%; padding: 8px;" %>
+    </div>
+
+    <%= submit_tag "Reset Password", style: "padding: 10px 20px; background-color: #d9752b; color: white; border: none; border-radius: 5px;" %>
+  <% end %>
+</div>

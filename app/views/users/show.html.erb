@@ -1,0 +1,13 @@
+<div style="text-align: center; margin-top: 50px;">
+  <h1><%= @user.username %>'s Profile</h1>
+
+  <div style="margin-top: 30px; font-size: 20px;">
+    <p><strong>Email:</strong> <%= @user.email %></p>
+
+    <% if @user.is_tradesman %>
+      <p><strong>Trade Role:</strong> <%= @user.role %></p>
+    <% else %>
+      <p><strong>Role:</strong> Regular User</p>
+    <% end %>
+  </div>
+</div>

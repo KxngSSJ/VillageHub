@@ -1,0 +1,84 @@
+<!-- Work posts page  -->
+
+<div style="padding: 40px; background-color: #f2f2f2; min-height: 100vh;">
+  <h1 style="text-align: center; color: #333; font-size: 36px; margin-bottom: 30px;">Browse Tradesmen Work</h1>
+
+  <!-- Loops through each work post -->
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+    <% @work_posts.each do |post| %>
+      <div style="background: white; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; padding: 20px;">
+        
+        <!-- Display image if available, else use placeholder -->
+        <% if post.image.attached? %>
+          <%= image_tag post.image, style: "width: 100%; height: auto; border-radius: 5px;" %>
+        <% else %>
+          <img src="https://via.placeholder.com/300x180.png?text=Work+Image" alt="Work Image" style="width: 100%; height: auto; border-radius: 5px;">
+        <% end %>
+
+        <!-- Displays post details -->
+        <h3 style="margin-top: 15px; color: #d9752b;"><%= post.title %></h3>
+        <p><strong>Description:</strong> <%= post.description %></p>
+        <p><strong>Posted by:</strong> <%= post.user.username %></p>
+
+        <!-- Show average rating for each post -->
+        <div style="margin: 10px 0;">
+          <strong>Average Rating:</strong>
+
+          <% avg = post.average_rating.to_i %> 
+          <!-- Gets the average rating (like 3.6) and then converts it to a whole number (3) so we can show full stars -->
+
+          <% 5.times do |i| %>
+            <!-- Loop 5 times to represent the 5 stars -->
+            <span style="color: gold; font-size: 18px;">
+              <%= i < avg ? '★' : '☆' %>
+              <!-- If this star index is less than the average, show a filled star (★), else show empty (☆) -->
+            </span>
+          <% end %>
+          <!-- Show the exact average score as a number beside the stars -->
+          (<%= post.average_rating %>/5)
+        </div>
+
+        <!-- Star rating form (Only shown if the user is not a tradesman amd did not create the post or has not already rated it) -->
+        <% if current_user && !current_user.is_tradesman && current_user != post.user && post.ratings.none? { |r| r.user_id == current_user.id } %>
+          <div style="margin-top: 10px;">
+            <p style="margin-bottom: 5px;"><strong>Rate this tradesman:</strong></p>
+
+          <!-- The form lets the user submit a rating (1 to 5 stars) for a specific work post -->
+           <%= form_with url: work_post_ratings_path(post), method: :post, local: true do %>
+
+          <!-- Displays 5 radio buttons as gold stars -->
+           <% (1..5).each do |star| %>
+           <%= radio_button_tag :score, star, false, id: "star_#{post.id}_#{star}" %>
+           <%= label_tag "star_#{post.id}_#{star}", "★", style: "color: gold; font-size: 20px; margin-right: 5px;" %>
+          <% end %>
+
+         <!-- Submit button to send the selected rating to the server -->
+         <%= submit_tag "Submit", style: "margin-top: 5px; padding: 5px 10px; border: none; background-color:rgb(43, 217, 63); color: white; border-radius: 5px; cursor: pointer;" %>
+         <% end %>
+          </div>
+        <% end %>
+
+        <!-- Contact via Email (Only visible to users who aren't tradesmen and didn't post this work) -->
+        <% if current_user && !current_user.is_tradesman && current_user != post.user && post.user.email.present? %>
+         <div style="margin-top: 10px;">
+         <!-- 'mailto:' link opens the user's default email client to email the tradesman -->
+         <%= link_to "Email Tradesman", "mailto:#{post.user.email}", 
+         style: "display: block; width: 100%; padding: 10px 15px; background-color: #d9752b; color: white; border-radius: 5px; text-align: center; text-decoration: none; margin-bottom: 10px;" %>
+        </div>
+        <% end %>
+
+        <!-- Show Edit & Delete only if user is the owner -->
+        <% if current_user == post.user %>
+       <div style="display: flex; justify-content: space-between;">
+         <!-- Edit button -->
+        <%= link_to "Edit", edit_work_post_path(post), style: "background-color: #3498db; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none;" %>
+            
+        <!-- Delete button -->
+         <%= button_to "Delete", work_post_path(post), method: :delete, data: { confirm: "Are you sure?" }, style: "background-color: red; color: white; padding: 8px 15px; border-radius: 5px; border: none;" %>
+        </div>
+        <% end %>
+
+      </div>
+    <% end %>
+  </div>
+</div>
